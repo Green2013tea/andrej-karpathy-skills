@@ -1,9 +1,12 @@
----
-description: Behavioral guidelines to reduce common LLM coding mistakes. Use when writing, reviewing, or refactoring code to avoid overcomplication, make surgical changes, surface assumptions, and define verifiable success criteria.
-alwaysApply: true
----
+description = "Behavioral guidelines for coding agents (maintained by green2013tea)."
 
-# Karpathy behavioral guidelines
+prompt = """
+# green2013tea-guidelines
+
+## Runtime Notes (Gemini CLI)
+
+- Add the relevant files to context first (e.g. `@path/to/file` or `@src/`), then run `/green2013tea-guidelines`.
+- Use this command as a reusable “prompt template”; Gemini does not have a shared skill system like Claude/Codex.
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 
@@ -68,3 +71,4 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+"""

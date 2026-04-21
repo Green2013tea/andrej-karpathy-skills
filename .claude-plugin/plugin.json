@@ -1,11 +1,11 @@
 {
-  "name": "andrej-karpathy-skills",
-  "description": "Behavioral guidelines to reduce common LLM coding mistakes, derived from Andrej Karpathy's observations on LLM coding pitfalls",
+  "name": "green2013tea-guidelines",
+  "description": "Behavioral guidelines to reduce common LLM coding mistakes",
   "version": "1.0.0",
   "author": {
-    "name": "forrestchang"
+    "name": "green2013tea"
   },
   "license": "MIT",
-  "keywords": ["guidelines", "best-practices", "coding", "karpathy"],
-  "skills": ["./skills/karpathy-guidelines"]
+  "keywords": ["guidelines", "best-practices", "coding", "agents"],
+  "skills": ["./.claude/skills/green2013tea-guidelines"]
 }

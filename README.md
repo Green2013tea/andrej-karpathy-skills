@@ -1,22 +1,16 @@
-# Karpathy-Inspired Claude Code Guidelines
+# AI Coding Agent Behavioral Guidelines
 
-> Check out my new project [Multica](https://github.com/multica-ai/multica) — an open-source platform for running and managing coding agents with reusable skills.
->
-> Follow me on X: [https://x.com/jiayuan_jy](https://x.com/jiayuan_jy)
+Maintained by [green2013tea](https://github.com/green2013tea).
 
-A single `CLAUDE.md` file to improve Claude Code behavior, derived from [Andrej Karpathy's observations](https://x.com/karpathy/status/2015883857489522876) on LLM coding pitfalls.
-
-English | [简体中文](./README.zh.md)
+A small set of instruction files and reusable prompts to improve AI coding agent behavior.
 
 ## The Problems
 
-From Andrej's post:
+Common failure modes with coding agents:
 
-> "The models make wrong assumptions on your behalf and just run along with them without checking. They don't manage their confusion, don't seek clarifications, don't surface inconsistencies, don't present tradeoffs, don't push back when they should."
-
-> "They really like to overcomplicate code and APIs, bloat abstractions, don't clean up dead code... implement a bloated construction over 1000 lines when 100 would do."
-
-> "They still sometimes change/remove comments and code they don't sufficiently understand as side effects, even if orthogonal to the task."
+- Making assumptions silently instead of asking clarifying questions
+- Overcomplicating code and APIs with unnecessary abstraction
+- Making orthogonal edits (comments/formatting/adjacent code) unrelated to the request
 
 ## The Solution
 
@@ -102,12 +96,12 @@ Strong success criteria let the LLM loop independently. Weak criteria ("make it 
 
 From within Claude Code, first add the marketplace:
 ```
-/plugin marketplace add forrestchang/andrej-karpathy-skills
+/plugin marketplace add <your_github>/<your_repo>
 ```
 
 Then install the plugin:
 ```
-/plugin install andrej-karpathy-skills@karpathy-skills
+/plugin install <plugin_name>@<tag>
 ```
 
 This installs the guidelines as a Claude Code plugin, making the skill available across all your projects.
@@ -116,26 +110,38 @@ This installs the guidelines as a Claude Code plugin, making the skill available
 
 New project:
 ```bash
-curl -o CLAUDE.md https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md
+curl -o CLAUDE.md https://raw.githubusercontent.com/<your_github>/<your_repo>/main/CLAUDE.md
 ```
 
 Existing project (append):
 ```bash
 echo "" >> CLAUDE.md
-curl https://raw.githubusercontent.com/forrestchang/andrej-karpathy-skills/main/CLAUDE.md >> CLAUDE.md
+curl https://raw.githubusercontent.com/<your_github>/<your_repo>/main/CLAUDE.md >> CLAUDE.md
 ```
+
+## Agent Differences
+
+- **Claude Code:** `CLAUDE.md` is the primary “project memory”. Use `/green2013tea-guidelines` to keep the principles active during non-trivial tasks.
+- **OpenAI Codex:** Approval-mode driven (Suggest vs Auto Edit vs Full Auto). Prefer Suggest for surgical diffs; if using these project-local prompts/skills, start with `CODEX_HOME=<repo>/.codex`.
+- **Gemini CLI:** Custom commands are TOML prompts (no shared skill system). Add relevant files to context explicitly, then run `/green2013tea-guidelines`.
+- **Qwen Code:** Custom commands are Markdown files and can accept args/dynamic injections. Keep it surgical; only add dynamic context when directly needed.
+
+## Project-local artifacts (multi-agent)
+
+This repo also ships “native” project-local wrappers so you can use the same principles across runtimes:
+
+- **Claude Code:** `.claude/skills/green2013tea-guidelines/SKILL.md`
+- **Codex:** `.codex/skills/green2013tea-guidelines/SKILL.md` and `.codex/prompts/green2013tea-guidelines.md` (set `CODEX_HOME=<repo>/.codex` for discovery)
+- **Gemini CLI:** `.gemini/commands/green2013tea-guidelines.toml`
+- **Qwen Code:** `.qwen/commands/green2013tea-guidelines.md`
 
 ## Using with Cursor
 
-This repository includes a committed Cursor project rule ([`.cursor/rules/karpathy-guidelines.mdc`](.cursor/rules/karpathy-guidelines.mdc)) so the same guidelines apply when you open the project in Cursor. See **[CURSOR.md](CURSOR.md)** for setup, using the rule in other projects, and how this relates to Claude Code.
+This repository includes a committed Cursor project rule ([`.cursor/rules/green2013tea-guidelines.mdc`](.cursor/rules/green2013tea-guidelines.mdc)) so the same guidelines apply when you open the project in Cursor. See **[CURSOR.md](CURSOR.md)** for setup, using the rule in other projects, and how this relates to Claude Code.
 
 ## Key Insight
 
-From Andrej:
-
-> "LLMs are exceptionally good at looping until they meet specific goals... Don't tell it what to do, give it success criteria and watch it go."
-
-The "Goal-Driven Execution" principle captures this: transform imperative instructions into declarative goals with verification loops.
+The "Goal-Driven Execution" principle captures a practical workflow: transform imperative instructions into declarative goals with verification loops.
 
 ## How to Know It's Working
 
